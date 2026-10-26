@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 
-const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'bookleaf-secret-jwt-key-2026-secure';
+const JWT_SECRET = process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET || 'bookleaf-secret-jwt-key-2026-secure';
 const COOKIE_NAME = 'bookleaf_token';
 
 export async function hashPassword(plainPassword) {
