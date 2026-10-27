@@ -1,4 +1,4 @@
-import { getRelevantKnowledgeBase } from './knowledgeBase';
+import { getRelevantKnowledgeBase } from './knowledgeBase.js';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const PRIMARY_MODEL = 'gemini-3.5-flash';
@@ -18,7 +18,7 @@ const PRIORITIES = ['Critical', 'High', 'Medium', 'Low'];
 /**
  * Execute Gemini REST API Call with timeout and fallback models
  */
-async function callGemini(prompt, systemInstruction = '', maxTokens = 1000) {
+async function callGemini(prompt, systemInstruction = '', maxTokens = 1000, isJson = false) {
   if (!GEMINI_API_KEY) {
     throw new Error('GEMINI_API_KEY is not configured in environment variables');
   }
@@ -36,6 +36,7 @@ async function callGemini(prompt, systemInstruction = '', maxTokens = 1000) {
         generationConfig: {
           temperature: 0.2,
           maxOutputTokens: maxTokens,
+          ...(isJson ? { responseMimeType: 'application/json' } : {}),
         },
       };
 
@@ -196,7 +197,7 @@ Subject: ${subject}
 Description: ${description}`;
 
   try {
-    const rawResponse = await callGemini(prompt, systemInstruction, 300);
+    const rawResponse = await callGemini(prompt, systemInstruction, 1000, true);
     // Parse JSON safely
     const cleanJson = rawResponse.replace(/```json/gi, '').replace(/```/g, '').trim();
     const parsed = JSON.parse(cleanJson);

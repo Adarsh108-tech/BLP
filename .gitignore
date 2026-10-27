@@ -29,3 +29,5 @@ yarn-error.log*
 .env.production
 .env.development
 !.env.example
+
+.early.coverage

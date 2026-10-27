@@ -195,6 +195,8 @@ export default async function MyBooksPage() {
                   <div className="flex items-center space-x-2 flex-wrap">
                     <span>ISBN: <strong className="font-mono text-slate-700">{book.isbn || 'Pending'}</strong></span>
                     <span>·</span>
+                    <span>Published: <strong className="text-slate-700">{book.publication_date || 'In Production'}</strong></span>
+                    <span>·</span>
                     <span>Channels: {book.available_on?.length ? book.available_on.join(', ') : 'Pending'}</span>
                   </div>
 
